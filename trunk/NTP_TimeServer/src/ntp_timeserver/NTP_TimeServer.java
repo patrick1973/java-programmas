@@ -1,22 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ntp_timeserver;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author patje
  */
-public class NTP_TimeServer {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+public class NTP_TimeServer
+{
+    public static void main(String[] args) throws IOException 
+    {
+        try (Socket s= new Socket("time-A.timefreq.bldrdoc.gov",13))
+        {
+            InputStream inStream = s.getInputStream();
+            Scanner in = new Scanner(inStream);
+            
+            while (in.hasNextLine())
+            {
+                String line = in.nextLine();
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(NTP_TimeServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }
